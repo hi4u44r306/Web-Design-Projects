@@ -457,7 +457,7 @@ img{
     margin-right: var(--mb-0-75);
 }
 
-.skill__title{
+.skills__titles{
     font-size: var(--h4-font-size);
 }
 
@@ -998,7 +998,7 @@ img{
         width: 180px;
     }
     /* Skills */
-    .skills__title{
+    .skills__titles{
         font-size: var(--normal-font-size);
     }
     /* Qualification */
@@ -1046,10 +1046,10 @@ img{
     }
     .home__img{
         order: 1;
+        justify-self: center;
     }
 
     .about__container,
-    .skills__container,
     .portfolio__content,
     .project__container,
     .contact__container,
