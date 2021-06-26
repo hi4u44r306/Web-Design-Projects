@@ -30,13 +30,15 @@ a {
 
 form,
 .content {
+    box-shadow: 0 6px 10px rgba(0,0,0,.15);
     width: 30%;
     margin: 0px auto;
     padding: 20px;
-    border: 1px solid #B0C4DE;
+    border: none;
     background: white;
     border-radius: 0px 0px 10px 10px;
 }
+
 
 .input-group {
     margin: 10px 0px 10px 0px;
@@ -123,10 +125,21 @@ form,
 }
 
 .welcomemsg {
-    color: #fd5959;
+    color: #070707;
     text-transform: uppercase;
 }
 
-.image {
-    width: 100%;
+.image_1 {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 5%;
+    width: 25%;
+}
+.image_2 {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 5%;
+    width: 25%;
 }

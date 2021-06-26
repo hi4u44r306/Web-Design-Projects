@@ -4,7 +4,7 @@
 
 <head>
     <title>Registration system PHP and MySQL</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="auth.css">
 </head>
 
 <body>
@@ -37,6 +37,8 @@
             <b>Already a member?<a href="login.php"> Sign in</a></b>
         </p>
     </form>
+    <img class="image_1" src="img/log.svg" alt="">
+    <img class="image_2" src="img/register.svg" alt="">
 </body>
 
 </html>

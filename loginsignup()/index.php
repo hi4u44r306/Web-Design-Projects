@@ -27,10 +27,7 @@
         <?php  if (isset($_SESSION['username'])) : ?>
         <p>Welcome <strong class="welcomemsg"><?php echo $_SESSION['username']; ?></strong></p>
         <button class="smallbtn"><a href="index.php?logout='1'">LOGOUT</a></button>
-        <b>
-            <p class="logoutmsg"> <a href="index.php?logout='1'">LOGOUT</a>
-            </p>
-        </b>
+
         <?php endif ?>
     </div>
     <div class="content">
@@ -45,9 +42,10 @@
             </h3>
         </div>
         <?php endif ?>
-        <img class="image" src="img/log.svg" alt="">
-    </div>
 
+    </div>
+    <img class="image_1" src="img/log.svg" alt="">
+    <img class="image_2" src="img/log.svg" alt="">
 </body>
 
 </html>

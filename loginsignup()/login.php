@@ -28,8 +28,10 @@
         <p>
             <b>Not yet a member? <a href="register.php">Sign up</a></b>
         </p>
-        <img class="image" src="img/log.svg" alt="">
+
     </form>
+    <img class="image_1" src="img/log.svg" alt="">
+    <img class="image_2" src="img/register.svg" alt="">
 </body>
 
 </html>
