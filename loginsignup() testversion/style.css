@@ -1,99 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
 
-* {
-    margin: 0px;
-    padding: 0px;
-    box-sizing: border-box;
+.home__image{
+    width: 200px;
 }
 
-body {
-    font-size: 80%;
-    background: #F8F8FF;
-    font-family: 'Poppins', sans-serif;
-}
-
-a {
-    text-decoration: none;
-}
-
-.btn {
-    width: 150px;
-    height: 49px;
-    border: none;
-    outline: none;
-    border-radius: 49px;
-    cursor: pointer;
-    background-color: #5995fd;
-    color: #fff;
-    text-transform: uppercase;
-    font-weight: 600;
-    margin: 10px 10px;
-}
-
-.smallbtn {
-    width: 150px;
-    height: 29px;
-    border: none;
-    outline: none;
-    border-radius: 49px;
-    cursor: pointer;
-    background-color: #fd5959;
-    color: #fff;
-    text-transform: uppercase;
-    font-weight: 600;
-    margin: 10px 10px;
-}
-
-.btn:hover {
-    background-color: #4d84e2;
-}
-
-.smallbtn:hover {
-    background-color: #fda359;
-}
-
-.error {
-    width: 92%;
-    margin: 0px auto;
-    padding: 10px;
-    border: 1px solid #a94442;
-    color: #a94442;
-    background: #f2dede;
-    border-radius: 5px;
-    text-align: left;
-}
-
-.success {
-    color: #3c763d;
-    background: #dff0d8;
-    border: 1px solid #3c763d;
-    margin-bottom: 20px;
-}
-
-.logoutmsg {
-    color: #a94442;
-    text-transform: uppercase;
-}
-
-.welcomemsg {
-    color: var(--title-color);
-    text-transform: uppercase;
-}
-
-.image_1 {
-    display: block;
-    position: absolute;
-    top: 50%;
-    left: 5%;
-    width: 25%;
-}
-.image_2 {
-    display: block;
-    position: absolute;
-    top: 50%;
-    right: 5%;
-    width: 25%;
-}
 
 /* =============Google Fonts ============*/
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
@@ -103,8 +13,8 @@ a {
     --header-height: 3rem;
 
     /* ============Colors===========*/
-    --hue-color: 230;
-
+    --hue-color: 230; /* blue: 230  pink: 344*/
+    --user-color: 360;
     /* HSL Color */
     --first-color: hsl(var(--hue-color), 69%, 61%);
     --first-color-second: hsl(var(--hue-color), 69%, 61%);
@@ -118,6 +28,10 @@ a {
     --container-color: #fff;
     --scroll-bar-color: hsl(var(--hue-color), 12%, 90%);
     --scroll-thumb-color: hsl(var(--hue-color), 12%, 80%);
+    --logout-color: hsl(var(--user-color), 69%, 61%);
+    --logout-color-alt: hsl(var(--user-color), 57%, 53%);
+    --profile-color: hsl(var(--user-color), 69%, 61%);
+    --profile-color-alt: hsl(var(--user-color), 57%, 53%);
 
     /*========== Font and typography ==========*/
     --body-font:'Poppins', sans-serif; ;
@@ -299,6 +213,8 @@ img{
     color:var(--first-color)
 }
 
+
+
 @media screen and (max-width: 767px) {
     .nav__menu{
         position: fixed;
@@ -362,13 +278,46 @@ img{
     box-shadow: 0 -1px 4px rgba(0,0,0,.15);
 }
 
+/*==================== USER ====================*/
+
+.logoutmsg {
+    color: #a94442;
+    text-transform: uppercase;
+}
+
+.logout{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: var(--small-font-size);
+    font-weight: var(--font-medium);
+    color: var(--logout-color);
+    text-transform: uppercase;
+}
+
+.logout:hover{
+    color: var(--logout-color-alt);
+}
+
+.profile{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: var(--small-font-size);
+    font-weight: var(--font-medium);
+    color: var(--profile-color);
+    text-transform: uppercase;
+}
+
+.profile:hover{
+    color: var(--profile-color-alt);
+}
 /*==================== HOME ====================*/
 .home__container{
     gap: 1rem;
 }
 
 .home__content{
-    grid-template-columns: .5fr 3fr;
     padding-top: 3.5rem;
     align-items: center;
 }
@@ -388,21 +337,15 @@ img{
     color: var(--first-color-alt);
 }
 
-.home__blob{
-    width: 200px;
-    fill: var(--first-color);
-}
-
-.home__blob-img{
-    width: 200px;
-}
-
 .home__data{
-    grid-column: 1/3;
+    grid-column: 1/2;
 }
 
 .home__title{
     font-size: var(--big-font-size);
+    background: -webkit-linear-gradient(135deg, orange 60%, rgb(255, 51, 0));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .home__subtitle{
@@ -443,6 +386,16 @@ img{
 .home__scroll-arrow{
     font-size: 1.25rem;
 }
+/*==================== MAP ====================*/
+
+.map__container{
+    padding-top: 3.5rem;
+    width: 400px;
+    height: 400px;
+    border-radius: 10px;
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+}
+
 /*==================== BUTTONS ====================*/
 .button{
     display: inline-block;
@@ -491,45 +444,47 @@ img{
     background-color: transparent;
     color: var(--first-color-alt);
 }
-/*==================== ABOUT ====================*/
-.about__img{
+/*==================== EVENT ====================*/
+.event__img{
     width: 200px;
     border-radius: .5rem;
     justify-self: center;
     align-self: center; 
 }
 
-.about__description{
+.event__description{
     text-align: center;
     margin-bottom: var(--mb-2-5);
 }
 
-.about__info{
+.event__info{
     display: flex;
     justify-content: space-evenly;
     margin-bottom: var(--mb-2-5);
 }
 
-.about__info-title{
+.event__info-title{
     font-size: var(--h2-font-size);
     font-weight: var(--font-semi-bold);
     color: var(--title-color);
 }
 
-.about__info-name{
+.event__info-name{
     font-size: var(--smaller-font-size);
 }
 
-.about__info-title,
-.about__info-name{
+.event__info-title,
+.event__info-name{
     display: block;
     text-align: center;
 }
 
-.about__buttons{
+.event__buttons{
     display: flex;
     justify-content: center;
 }
+
+
 
 
 /*==================== SKILLS ====================*/
@@ -1146,7 +1101,7 @@ img{
         justify-self: center;
     }
 
-    .about__container,
+    .event__container,
     .portfolio__content,
     .project__container,
     .contact__container,
@@ -1226,19 +1181,19 @@ img{
         margin-left: 3rem;
     }
 
-    .about__container{
+    .event__container{
         column-gap: 5rem;
     }
-    .about__img{
+    .event__img{
         width: 350px;
     }
-    .about__description{
+    .event__description{
         text-align: initial;
     }
-    .about__info{
+    .event__info{
         justify-content: space-between;
     }
-    .about__buttons{
+    .event__buttons{
         justify-content: initial;
     }
 

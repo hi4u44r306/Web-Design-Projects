@@ -23,54 +23,108 @@
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" />
     <!--======================== SWIPER CSS ===========================-->
     <link rel="stylesheet" href="swiper-bundle.min.css" />
+    <!--==================== MAP ====================-->
+    <script>
+    // Note: This example requires that you consent to location sharing when
+    // prompted by your browser. If you see the error "The Geolocation service
+    // failed.", it means you probably did not give permission for the browser to
+    // locate you.
+    var map, infoWindow;
+
+    function initMap() {
+        map = new google.maps.Map(document.getElementById("map"), {
+            center: {
+                lat: -34.397,
+                lng: 150.644
+            },
+            zoom: 18,
+        });
+
+        infoWindow = new google.maps.InfoWindow();
+
+        // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    var pos = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude,
+                    };
+
+                    infoWindow.setPosition(pos);
+                    infoWindow.setContent("You are here !");
+                    infoWindow.open(map);
+                    map.setCenter(pos);
+                },
+                function() {
+                    handleLocationError(true, infoWindow, map.getCenter());
+                }
+            );
+        } else {
+            // Browser doesn't support Geolocation
+            handleLocationError(false, infoWindow, map.getCenter());
+        }
+    }
+
+    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(
+            browserHasGeolocation ?
+            "Error: The Geolocation service failed." :
+            "Error: Your browser doesn't support geolocation."
+        );
+        infoWindow.open(map);
+    }
+    </script>
+    <script async
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAnv_Z-OLThDSAb7Wuy64iqD3NleZhY1ZE&callback=initMap">
+    </script>
 </head>
 
 <body>
+
     <!--==================== HEADER ====================-->
     <header class="header" id="header">
         <nav class="nav container">
-
-            <!-- logged in user information -->
-            <?php  if (isset($_SESSION['username'])) : ?>
-            <p>Welcome <strong class="welcomemsg"><a href="#" class="nav__logo"><?php echo $_SESSION['username']; ?></a>
-                </strong></p>
-            <?php endif ?>
+            <a href="#" class="nav__logo">
+                <i class="uil uil-scenery nav__icon"></i> Foodmate
+            </a>
 
             <div class="nav__menu" id="nav-menu">
                 <ul class="nav__list grid">
-                    <li class="nav__item">
-                        <a href="index.php?logout='1'" class="nav__link">
-                            <i class="uil uil-estate nav__icon"></i> Logout
-                        </a>
-                    </li>
+
                     <li class="nav__item">
                         <a href="#home" class="nav__link active-link">
-                            <i class="uil uil-estate nav__icon"></i> Home
+                            <i class="uil uil-map-marker nav__icon"></i> Map
                         </a>
                     </li>
                     <li class="nav__item">
-                        <a href="#about" class="nav__link">
-                            <i class="uil uil-user nav__icon"></i> About
+                        <a href="#currentevent" class="nav__link">
+                            <i class="uil uil-create-dashboard nav__icon"></i> Current Event
                         </a>
                     </li>
                     <li class="nav__item">
-                        <a href="#skills" class="nav__link">
-                            <i class="uil uil-file-alt nav__icon"></i> Skills
+                        <a href="#create" class="nav__link">
+                            <i class="uil uil-file-alt nav__icon"></i> Create Event
                         </a>
                     </li>
                     <li class="nav__item">
                         <a href="#services" class="nav__link">
-                            <i class="uil uil-briefcase-alt nav__icon"></i> Services
+                            <i class="uil uil-briefcase-alt nav__icon"></i> Chat
                         </a>
                     </li>
+                    <!-- logged in user information -->
+                    <?php  if (isset($_SESSION['username'])) : ?>
                     <li class="nav__item">
-                        <a href="#portfolio" class="nav__link">
-                            <i class="uil uil-scenery nav__icon"></i> Portfolio
+                        <a href="profile.php" class="profile">
+                            <i class="uil uil-user nav__icon"></i>
+                            || <?php echo $_SESSION['username']; ?> ||
                         </a>
                     </li>
+                    <?php endif ?>
                     <li class="nav__item">
-                        <a href="#contact" class="nav__link">
-                            <i class="uil uil-message nav__icon"></i> Contactme
+                        <a href="index.php?logout='1'" class="logout">
+                            <i class="uil uil-signout nav__icon"></i> Logout
                         </a>
                     </li>
                 </ul>
@@ -93,49 +147,28 @@
             <div class="home__container container grid">
                 <div class="home__content grid">
                     <div class="home__social">
-                        <a href="https://www.linkedin.com/in/%E5%A5%95%E5%BD%AC-%E5%BE%90-7a8125211/" target="_blank"
-                            class="home__social-icon">
-                            <i class="uil uil-linkedin-alt"></i>
-                        </a>
-                        <a href="https://www.instagram.com/victor.0203/" target="_blank" class="home__social-icon">
+                        <a href="#" target="_blank" class="home__social-icon">
                             <i class="uil uil-instagram"></i>
                         </a>
-                        <a href="https://github.com/hi4u44r306" target="_blank" class="home__social-icon">
-                            <i class="uil uil-github-alt"></i>
+                        <a href="#" target="_blank" class="home__social-icon">
+                            <i class="uil uil-facebook-f"></i>
                         </a>
                     </div>
-                    <div class="div home__img">
-                        <svg class="home__blob" viewBox="0 0 200 187" xmlns="http://www.w3.org/2000/svg"
-                            xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <mask id="mask0" mask-type="alpha">
-                                <path d="M190.312 36.4879C206.582 62.1187 201.309 102.826 182.328 134.186C163.346 165.547 
-                        130.807 187.559 100.226 186.353C69.6454 185.297 41.0228 161.023 21.7403 129.362C2.45775 
-                        97.8511 -7.48481 59.1033 6.67581 34.5279C20.9871 10.1032 59.7028 -0.149132 97.9666 
-                        0.00163737C136.23 0.303176 174.193 10.857 190.312 36.4879Z" />
-                            </mask>
-                            <g mask="url(#mask0)">
-                                <path d="M190.312 36.4879C206.582 62.1187 201.309 102.826 182.328 134.186C163.346 
-                        165.547 130.807 187.559 100.226 186.353C69.6454 185.297 41.0228 161.023 21.7403 
-                        129.362C2.45775 97.8511 -7.48481 59.1033 6.67581 34.5279C20.9871 10.1032 59.7028 
-                        -0.149132 97.9666 0.00163737C136.23 0.303176 174.193 10.857 190.312 36.4879Z" />
-                                <image class="home__blob-img" x="6" y="-35" xlink:href="img/me.jpg" />
-                            </g>
-                        </svg>
-                    </div>
-
                     <div class="home__data">
-                        <h1 class="home__title">Hi, I'm</h1>
-                        <h3 class="home__subtitle">Frontend Developer</h3>
+                        <h1 class="home__title">Foodmate</h1>
+                        <h3 class="home__subtitle">Feel lonely ?</h3>
                         <p class="home__description">
-                            Basic web design and development knowledge
+                            Hold events to meet more friend
                         </p>
                         <a href="#contact" class="button button--flex">
-                            Conatct Me <i class="uil uil-message button__icon"></i>
+                            Create Event <i class="uil uil-message button__icon"></i>
                         </a>
                     </div>
+                    <div class="map__container grid" id="map"></div>
                 </div>
+
                 <div class="div home__scroll">
-                    <a href="#about" class="home__scroll-button button--flex">
+                    <a href="#currentevent" class="home__scroll-button button--flex">
                         <i class="uil uil-mouse-alt home__scroll-mouse"></i>
                         <span class="home__scroll-name">Scroll down</span>
                         <i class="uil uil-arrow-down home__scroll-arrow"></i>
@@ -144,190 +177,76 @@
             </div>
         </section>
 
-        <!--==================== ABOUT ====================-->
-        <section class="about section" id="about">
-            <h2 class="section__title">About Me</h2>
-            <span class="section__subtitle">My introduction</span>
+        <!--==================== Current Event ====================-->
+        <section class="event section" id="currentevent">
+            <h2 class="section__title">Latest Event</h2>
+            <span class="section__subtitle">Free to join</span>
 
-            <div class="about__container container grid">
-                <img src="img/victor.jpg" alt="" class="about__img" />
-                <div class="about__data">
-                    <p class="about__description">
-                        Web developer, with basic knowledge on web develope, good at team
-                        work.
-                    </p>
-                    <div class="about__info">
+            <div class="event__container container grid">
+                <div class="event__data">
+                    <div class="event__info">
                         <div>
-                            <span class="about__info-title">08+</span>
-                            <span class="about__info-name">Years <br />experience</span>
-                        </div>
-                        <div>
-                            <span class="about__info-title">20+</span>
-                            <span class="about__info-name">Completed <br />project</span>
-                        </div>
-                        <div>
-                            <span class="about__info-title">05+</span>
-                            <span class="about__info-name">Companies<br />worked</span>
+                            <img src="img/register.svg" alt="">
+                            <span class="event__info-title">Hot Pot</span>
+                            <span class="event__info-name">Date : 2020/2/1</span>
+                            <span class="event__info-name">Time : 6:30 PM</span>
+                            <span class="event__info-name">Members : 2</span>
+                            <span class="event__info-name">Location : Taiway,Taoyuan</span>
                         </div>
                     </div>
-                    <div class="about__buttons">
+                    <div class="event__buttons">
                         <a download="" href="pdf/resume.pdf" class="button button--flex">
-                            Download Resume<i class="uil uil-download-alt button__icon"></i>
+                            Join Event<i class="uil uil-download-alt button__icon"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="event__data">
+                    <div class="event__info">
+                        <div>
+                            <img src="img/fun.svg" alt="">
+                            <span class="event__info-title">Hot Pot</span>
+                            <span class="event__info-name">Date : 2020/2/1</span>
+                            <span class="event__info-name">Time : 6:30 PM</span>
+                            <span class="event__info-name">Members : 2</span>
+                            <span class="event__info-name">Location : Taiway,Taoyuan</span>
+                        </div>
+                    </div>
+                    <div class="event__buttons">
+                        <a download="" href="pdf/resume.pdf" class="button button--flex">
+                            Join Event<i class="uil uil-download-alt button__icon"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="event__data">
+                    <div class="event__info">
+                        <div>
+                            <img src="img/log.svg" alt="">
+                            <span class="event__info-title">Hot Pot</span>
+                            <span class="event__info-name">Date : 2020/2/1</span>
+                            <span class="event__info-name">Time : 6:30 PM</span>
+                            <span class="event__info-name">Members : 2</span>
+                            <span class="event__info-name">Location : Taiway,Taoyuan</span>
+                        </div>
+                    </div>
+                    <div class="event__buttons">
+                        <a download="" href="pdf/resume.pdf" class="button button--flex">
+                            Join Event<i class="uil uil-download-alt button__icon"></i>
                         </a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!--==================== SKILLS ====================-->
-        <section class="skills section" id="skills">
-            <h2 class="section__title">Skills</h2>
-            <span class="section__subtitle">My technical level</span>
+        <!--==================== CREATE ====================-->
+        <section class="create section" id="create">
+            <h2 class="section__title">Create Event</h2>
+            <span class="section__subtitle">Create your event</span>
 
-            <div class="skills__container container grid">
+            <div class="create__container container">
                 <div>
-                    <!--================Skills 1=================-->
-                    <div class="skills__content skills__open">
-                        <div class="skills__header">
-                            <i class="uil uil-brackets-curly skills__icon"></i>
 
-                            <div>
-                                <h1 class="skills__titles">Frontend developer</h1>
-                                <span class="skills__subtitle">More than 1 years</span>
-                            </div>
-
-                            <i class="uil uil-angle-down skills__arrow"></i>
-                        </div>
-
-                        <div class="skills__list grid">
-                            <div class="skills__data">
-                                <div class="skills__titles">
-                                    <h3 class="skills__name">HTML</h3>
-                                    <span class="skills__number">90%</span>
-                                </div>
-                                <div class="skills__bar">
-                                    <span class="skills__percentage skills__html"></span>
-                                </div>
-                            </div>
-
-                            <div class="skills__data">
-                                <div class="skills__titles">
-                                    <h3 class="skills__name">CSS</h3>
-                                    <span class="skills__number">80%</span>
-                                </div>
-                                <div class="skills__bar">
-                                    <span class="skills__percentage skills__css"></span>
-                                </div>
-                            </div>
-
-                            <div class="skills__data">
-                                <div class="skills__titles">
-                                    <h3 class="skills__name">JavaScript</h3>
-                                    <span class="skills__number">50%</span>
-                                </div>
-                                <div class="skills__bar">
-                                    <span class="skills__percentage skills__js"></span>
-                                </div>
-                            </div>
-
-                            <div class="skills__data">
-                                <div class="skills__titles">
-                                    <h3 class="skills__name">React</h3>
-                                    <span class="skills__number">50%</span>
-                                </div>
-                                <div class="skills__bar">
-                                    <span class="skills__percentage skills__react"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--================Skills 2=================-->
-                    <div class="skills__content skills__close">
-                        <div class="skills__header">
-                            <i class="uil uil-server-network skills__icon"></i>
-                            <div>
-                                <h1 class="skills__titles">Backend developer</h1>
-                                <span class="skills__subtitle">More than 1 years</span>
-                            </div>
-
-                            <i class="uil uil-angle-down skills__arrow"></i>
-                        </div>
-
-                        <div class="skills__list grid">
-                            <div class="skills__data">
-                                <div class="skills__titles">
-                                    <h3 class="skills__name">MySQL</h3>
-                                    <span class="skills__number">50%</span>
-                                </div>
-                                <div class="skills__bar">
-                                    <span class="skills__percentage skills__sql"></span>
-                                </div>
-                            </div>
-
-                            <div class="skills__data">
-                                <div class="skills__titles">
-                                    <h3 class="skills__name">Firebase</h3>
-                                    <span class="skills__number">80%</span>
-                                </div>
-                                <div class="skills__bar">
-                                    <span class="skills__percentage skills__firebase"></span>
-                                </div>
-                            </div>
-
-                            <div class="skills__data">
-                                <div class="skills__titles">
-                                    <h3 class="skills__name">Python</h3>
-                                    <span class="skills__number">60%</span>
-                                </div>
-                                <div class="skills__bar">
-                                    <span class="skills__percentage skills__python"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--================Skills 3=================-->
-                    <div class="skills__content skills__close">
-                        <div class="skills__header">
-                            <i class="uil uil-letter-chinese-a skills__icon"></i>
-                            <div>
-                                <h1 class="skills__titles">Language</h1>
-                            </div>
-
-                            <i class="uil uil-angle-down skills__arrow"></i>
-                        </div>
-
-                        <div class="skills__list grid">
-                            <div class="skills__data">
-                                <div class="skills__titles">
-                                    <h3 class="skills__name">Chinese</h3>
-                                    <span class="skills__number">100%</span>
-                                </div>
-                                <div class="skills__bar">
-                                    <span class="skills__percentage skills__ch"></span>
-                                </div>
-                            </div>
-
-                            <div class="skills__data">
-                                <div class="skills__titles">
-                                    <h3 class="skills__name">English</h3>
-                                    <span class="skills__number">85%</span>
-                                </div>
-                                <div class="skills__bar">
-                                    <span class="skills__percentage skills__firebase"></span>
-                                </div>
-                            </div>
-
-                            <div class="skills__data">
-                                <div class="skills__titles">
-                                    <h3 class="skills__name">Taiwanese</h3>
-                                    <span class="skills__number">75%</span>
-                                </div>
-                                <div class="skills__bar">
-                                    <span class="skills__percentage skills__tw"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>
