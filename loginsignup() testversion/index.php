@@ -19,20 +19,17 @@
     <!--======================== UNICONS ===========================-->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" />
     <link rel="stylesheet" type="text/css" href="style.css">
-    <!--======================== UNICONS ===========================-->
-    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" />
-    <!--======================== SWIPER CSS ===========================-->
-    <link rel="stylesheet" href="swiper-bundle.min.css" />
-    <!--==================== MAP ====================-->
+    <!--======================== GOOGLE MAP ===========================-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
     <script>
     // Note: This example requires that you consent to location sharing when
     // prompted by your browser. If you see the error "The Geolocation service
     // failed.", it means you probably did not give permission for the browser to
     // locate you.
-    var map, infoWindow;
+    var homemap, homeinfoWindow;
 
     function initMap() {
-        map = new google.maps.Map(document.getElementById("map"), {
+        homemap = new google.maps.Map(document.getElementById("map"), {
             center: {
                 lat: -34.397,
                 lng: 150.644
@@ -40,7 +37,7 @@
             zoom: 18,
         });
 
-        infoWindow = new google.maps.InfoWindow();
+        homeinfoWindow = new google.maps.InfoWindow();
 
         // Try HTML5 geolocation.
         if (navigator.geolocation) {
@@ -51,34 +48,39 @@
                         lng: position.coords.longitude,
                     };
 
-                    infoWindow.setPosition(pos);
-                    infoWindow.setContent("You are here !");
-                    infoWindow.open(map);
-                    map.setCenter(pos);
+                    homeinfoWindow.setPosition(pos);
+                    homeinfoWindow.setContent("You are here !");
+                    homeinfoWindow.open(homemap);
+                    homemap.setCenter(pos);
                 },
                 function() {
-                    handleLocationError(true, infoWindow, map.getCenter());
+                    handleLocationError(true, homeinfoWindow, homemap.getCenter());
                 }
             );
         } else {
             // Browser doesn't support Geolocation
-            handleLocationError(false, infoWindow, map.getCenter());
+            handleLocationError(false, homeinfoWindow, homemap.getCenter());
         }
     }
 
-    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-        infoWindow.setPosition(pos);
-        infoWindow.setContent(
+    function handleLocationError(browserHasGeolocation, homeinfoWindow, pos) {
+        homeinfoWindow.setPosition(pos);
+        homeinfoWindow.setContent(
             browserHasGeolocation ?
             "Error: The Geolocation service failed." :
             "Error: Your browser doesn't support geolocation."
         );
-        infoWindow.open(map);
+        homeinfoWindow.open(homemap);
     }
     </script>
     <script async
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAnv_Z-OLThDSAb7Wuy64iqD3NleZhY1ZE&callback=initMap">
     </script>
+
+    <!--======================== SWIPER CSS ===========================-->
+    <link rel="stylesheet" href="swiper-bundle.min.css" />
+    <!--==================== MAP ====================-->
+
 </head>
 
 <body>
@@ -183,7 +185,7 @@
             <span class="section__subtitle">Free to join</span>
 
             <div class="event__container container grid">
-                <div class="event__data">
+                <div>
                     <div class="event__info">
                         <div>
                             <img src="img/register.svg" alt="">
@@ -194,62 +196,138 @@
                             <span class="event__info-name">Location : Taiway,Taoyuan</span>
                         </div>
                     </div>
-                    <div class="event__buttons">
-                        <a download="" href="pdf/resume.pdf" class="button button--flex">
-                            Join Event<i class="uil uil-download-alt button__icon"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="event__data">
-                    <div class="event__info">
-                        <div>
-                            <img src="img/fun.svg" alt="">
-                            <span class="event__info-title">Hot Pot</span>
-                            <span class="event__info-name">Date : 2020/2/1</span>
-                            <span class="event__info-name">Time : 6:30 PM</span>
-                            <span class="event__info-name">Members : 2</span>
-                            <span class="event__info-name">Location : Taiway,Taoyuan</span>
-                        </div>
-                    </div>
-                    <div class="event__buttons">
-                        <a download="" href="pdf/resume.pdf" class="button button--flex">
-                            Join Event<i class="uil uil-download-alt button__icon"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="event__data">
-                    <div class="event__info">
-                        <div>
-                            <img src="img/log.svg" alt="">
-                            <span class="event__info-title">Hot Pot</span>
-                            <span class="event__info-name">Date : 2020/2/1</span>
-                            <span class="event__info-name">Time : 6:30 PM</span>
-                            <span class="event__info-name">Members : 2</span>
-                            <span class="event__info-name">Location : Taiway,Taoyuan</span>
-                        </div>
-                    </div>
-                    <div class="event__buttons">
-                        <a download="" href="pdf/resume.pdf" class="button button--flex">
-                            Join Event<i class="uil uil-download-alt button__icon"></i>
-                        </a>
-                    </div>
                 </div>
             </div>
         </section>
 
-        <!--==================== CREATE ====================-->
+        <!--==================== CREATE EVENT ====================-->
         <section class="create section" id="create">
             <h2 class="section__title">Create Event</h2>
             <span class="section__subtitle">Create your event</span>
 
             <div class="create__container container">
-                <div>
+                <div class="main-container">
+                    <div class="left-container grid">
+                        <h4><i class="uil uil-upload create__icon"></i> Upload Your Event Image</h4>
+                        <input type="file" />
+                        <div class="create__content">
+                            <label for="" class="contact__label">Event Name</label>
+                            <input type="text" class="input-field" id="eventname">
+                        </div>
+                        <div class="create__content">
+                            <label for="" class="contact__label">Date</label>
+                            <input type="date" class="input-field" id="eventname">
+                        </div>
+                        <div class="create__content">
+                            <label for="" class="contact__label">Time</label>
+                            <input type="time" class="input-field" id="eventname">
+                        </div>
+                        <div class="create__content">
+                            <label for="" class="contact__label">Members</label>
+                            <input type="number" class="input-field" id="eventname">
+                        </div>
+                        <div class="create__content">
+                            <label for="" class="contact__label">Description</label>
+                            <input type="text" class="input-field" id="eventname">
+                        </div>
+                    </div>
 
+                    <div class="right-container" id="app">
+                        <div class="half-containers-up">
+                            <!-- 搜尋框 -->
+                            <div class="google-map">
+                                <h5> Search restaurant：</h5>
+                                <div class="form-group">
+                                    <input type="text" class="form-control " ref="site" v-model="site" id="address">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="half-containers-down">
+                            <!-- 放google map的div -->
+                            <div class="google-map">
+                                <div id="createmap" class="embed-responsive embed-responsive-16by9"></div>
+                            </div>
+                        </div>
+
+                        <script
+                            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBupJWuCfekKdvLi2Pra-nO1Mr3GitpO64&libraries=places">
+                        </script>
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
+                        <!-- map -->
+                        <script>
+                        const googleMap = new Vue({
+                            el: '#app',
+                            data: {
+                                map: null,
+                                autocomplete: null,
+                                site: '',
+                                place: null
+                            },
+                            methods: {
+                                initMap() {
+
+                                    let location = {
+                                        lat: 24.985208,
+                                        lng: 121.343280
+                                    };
+
+                                    this.map = new google.maps.Map(document.getElementById('createmap'), {
+                                        center: location,
+                                        zoom: 17
+                                    });
+                                },
+                                // 地址自動完成 + 地圖的中心移到輸入結果的地址上
+                                siteAuto() {
+
+                                    let options = {
+                                        componentRestrictions: {
+                                            country: 'tw'
+                                        } // 限制在台灣範圍
+                                    };
+                                    this.autocomplete = new google.maps.places.Autocomplete(this.$refs.site,
+                                        options);
+                                    this.autocomplete.addListener('place_changed', () => {
+                                        this.place = this.autocomplete.getPlace();
+                                        if (this.place.geometry) {
+                                            let searchCenter = this.place.geometry.location;
+                                            this.map.panTo(
+                                                searchCenter); // panTo是平滑移動、setCenter是直接改變地圖中心
+
+                                            // 放置標記
+                                            let marker = new google.maps.Marker({
+                                                position: searchCenter,
+                                                map: this.map
+                                            });
+
+                                            // info window
+                                            let infowindow = new google.maps.InfoWindow({
+                                                content: this.place.formatted_address
+                                            });
+                                            infowindow.open(this.map, marker);
+
+                                        }
+                                    });
+                                }
+                            },
+                            mounted() {
+                                window.addEventListener('load', () => {
+
+                                    this.initMap();
+                                    this.siteAuto();
+
+                                });
+                            }
+                        })
+                        </script>
+                    </div>
                 </div>
             </div>
+
+            </div>
+            </div>
+            </div>
         </section>
+
 
         <!--==================== QUALIFICATION ====================-->
         <section class="qualification section">
