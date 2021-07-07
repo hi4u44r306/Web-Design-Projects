@@ -34,6 +34,7 @@
     --profile-color: hsl(var(--user-color), 69%, 61%);
     --profile-color-alt: hsl(var(--user-color), 57%, 53%);
     --create-color: hsl(var(--user2-color), 60%, 92%);
+    --create-color-alt:hsl(var(--user2-color), 30%, 70%);
 
     /*========== Font and typography ==========*/
     --body-font:'Poppins', sans-serif; ;
@@ -95,6 +96,20 @@ body.dark-theme{
 }
 
 /*========== Button Dark/Light ==========*/
+.create-btn{
+    background-color: var(--first-color);
+    border: none;
+    padding: 5px;
+    border-radius: .5rem;
+    font-size: .85rem;
+    color: #fff;
+    font-weight: var(--font-medium);
+}
+
+.create-btn:hover{
+    background-color: var(--first-color-alt);
+}
+
 .nav__btns{
     display: flex;
     align-items: center;
