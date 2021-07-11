@@ -323,12 +323,12 @@ img{
     align-items: center;
     font-size: var(--small-font-size);
     font-weight: var(--font-medium);
-    color: var(--profile-color);
+    color: var(--title-color);
     text-transform: uppercase;
 }
 
 .profile:hover{
-    color: var(--profile-color-alt);
+    color: var(--first-color);
 }
 /*==================== HOME ====================*/
 .home__container{

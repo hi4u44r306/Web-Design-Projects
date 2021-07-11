@@ -190,3 +190,182 @@ themeButton.addEventListener('click', () => {
     localStorage.setItem('selected-theme', getCurrentTheme())
     localStorage.setItem('selected-icon', getCurrentIcon())
 })
+
+/*==================================Create Event Section==========================================*/
+var selectedFile;
+/*hide submit button*/
+$(document).ready(function(){
+    $("#createeventbutton").hide();
+})
+
+/*upload image to firebase*/
+$("#eventfile").on("change", function(event){
+    selectedFile = event.target.files[0];
+    $("#createeventbutton").show();
+});
+
+/*Submit function*/
+function EventuploadFile(){
+    alert('Event created succesfully')
+    // Create a root reference
+    var user = firebase.auth().currentUser;
+    var uid;
+            if (user != null) {
+                uid = user.uid;
+            }
+    var filename = selectedFile.name;
+    var storageRef = firebase.storage().ref('/Event/' + filename);
+    var uploadTask = storageRef.put(selectedFile);  
+    // Register three observers:
+    // 1. 'state_changed' observer, called any time the state changes
+    // 2. Error observer, called on failure
+    // 3. Completion observer, called on successful completion
+    uploadTask.on('state_changed', function(snapshot){
+        // Observe state change events such as progress, pause, and resume
+        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log('Upload is ' + progress + '% done');
+        switch (snapshot.state) {
+        case firebase.storage.TaskState.PAUSED: // or 'paused'
+            console.log('Upload is paused');
+            break;
+        case firebase.storage.TaskState.RUNNING: // or 'running'
+            console.log('Upload is running');
+            break;
+        }
+    }, function(error) {
+        // Handle unsuccessful uploads
+    }, function() {
+        // Handle successful uploads on complete
+        // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+        uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+            var postKey = firebase.database().ref('/Event/').push().key;
+            var updates = {};
+            var postData= {
+                url : downloadURL,
+                FoodCat: $("#FoodCategory").val(),
+                EventN: $("#EventName").val(),
+                EventD: $("#EventDate").val(),
+                EventT: $("#Eventtime").val(),
+                EventM: $("#Eventmember").val(),
+                Des: $("#Description").val(),
+                address: $("#address").val(),
+                user : user.uid,
+            };
+            updates['/Event/'+postKey] = postData;
+            firebase.database().ref().update(updates);
+            console.log('File available at', downloadURL);
+        });
+    });
+}
+
+/*=====================================Display Event Image & Event Info=============================================== */
+var user = firebase.auth().currentUser;
+var uid;
+            if (user != null) {
+                uid = user.uid;
+            }
+$(document).ready(function(){
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          // User is signed in.
+          var token = firebase.auth().currentUser.uid;
+          queryDatabase(token);
+        } else {
+          // No user is signed in.
+        }
+      });
+});
+
+
+function queryDatabase(token){
+        var userId = firebase.auth().currentUser.uid;
+            return firebase.database().ref('/Event/').once('value').then(function(snapshot) {
+                var PostObject = snapshot.val();
+                var username= (snapshot.val() && snapshot.val().username) || 'Anonymous';
+                var keys = Object.keys(PostObject);
+                var currentRow;
+                for (var i = 0; i < keys.length; i++){
+                    var currentObject = PostObject[keys[i]];
+                    if (i % 4 == 0){
+                        currentRow= document.createElement("div");
+                        $(currentRow).addClass("row p-5");
+                        $("#contentholder").append(currentRow);
+                    }
+                    var col = document.createElement("div");
+                    $(col).addClass("col-lg-3");
+                    var image = document.createElement("img");
+                    $(image).addClass("contentImage");
+                    image.src = currentObject.url;
+                    var p1 = document.createElement("p");
+                    $(p1).html(currentObject.EventN);
+                    $(p1).addClass("EventTitle");
+                    var p3 = document.createElement("p");
+                    $(p3).html(currentObject.EventD);
+                    $(p3).addClass("EDate");
+                    var p4 = document.createElement("p");
+                    $(p4).html(currentObject.EventT);
+                    $(p4).addClass("ETime");
+                    var p5 = document.createElement("p");
+                    $(p5).html(currentObject.EventM);
+                    $(p5).append('<i class="fas fa-user"></i>')
+                    $(p5).addClass("EMember");
+                    /*Join Button Auto Create*/
+                    var joinbtn= document.createElement("button");
+                    $(joinbtn).addClass("joinbtn")
+                    joinbtn.innerHTML = "CLICK ME"; 
+                    joinbtn.setAttribute('content', 'JOIN');
+                    joinbtn.textContent = 'Join';
+                    $(joinbtn).on("click", function(event){
+                        alert('test Join');
+                    });
+                    /*Search Button Auto Create*/
+                    var morebtn= document.createElement("button");
+                    $(morebtn).addClass("morebtn")
+                    morebtn.innerHTML = "CLICK ME"; 
+                    morebtn.setAttribute('style', 'background-color: black,font-color: white');
+                    morebtn.setAttribute('content', 'Learn More');
+                    morebtn.textContent = 'Learn More....';
+                    $(morebtn).on("click", function(event){
+                        personalevent();
+                    });
+                    /*Update Button Auto Create
+                    var updatebtn= document.createElement("button");
+                    $(updatebtn).addClass("updatebtn")
+                    updatebtn.innerHTML = "CLICK ME"; 
+                    updatebtn.setAttribute('style', 'background-color: black,font-color: white');
+                    updatebtn.setAttribute('content', 'Update');
+                    updatebtn.textContent = 'Update';
+                    $(updatebtn).on("click", function(event){
+                        //join button will add
+                        alert('test Update');
+                    });
+                    /*Delete Button Auto Create
+                    var deletebtn= document.createElement("button");
+                    $(deletebtn).addClass("deletebtn")
+                    deletebtn.innerHTML = "CLICK ME"; 
+                    deletebtn.setAttribute('style', 'background-color: black,font-color: white');
+                    deletebtn.setAttribute('content', 'DELETE');
+                    deletebtn.textContent = 'Delete';
+                    $(deletebtn).on("click", function(event){
+                        //join button will add
+                        alert('test delete');
+                    });*/
+
+                    $(col).append(image);
+                    $(col).append(p1,p3,p4,p5,joinbtn,morebtn);
+                    $(currentRow).append(col);
+                }
+      });
+}
+function personalevent(){
+    window.location.href = "./personal event.html";
+}
+
+// Create Option //
+$(function(){
+    var $select = $(".eventmember");
+    for (i=1;i<=100;i++){
+        $select.append($('<option></option>').val(i).html(i))
+    }
+});

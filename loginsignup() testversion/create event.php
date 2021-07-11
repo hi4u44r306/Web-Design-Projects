@@ -22,6 +22,8 @@
 
     <!--======================== CSS ===========================-->
     <link rel="stylesheet" type="text/css" href="create event.css">
+
+
 </head>
 
 <body>
@@ -59,9 +61,9 @@
                     <!-- logged in user information -->
                     <?php  if (isset($_SESSION['username'])) : ?>
                     <li class="nav__item">
-                        <a href="profile.php" class="profile">
+                        <a href="profile.php" class="nav__link">
                             <i class="uil uil-user nav__icon"></i>
-                            || <?php echo $_SESSION['username']; ?> ||
+                            User : <?php echo $_SESSION['username']; ?>
                         </a>
                     </li>
                     <?php endif ?>
@@ -90,29 +92,30 @@
             <div class="create__container container">
                 <div class="main-container">
                     <div class="left-container grid">
-                        <h4><i class="uil uil-upload create__icon"></i> Upload Your Event Image</h4>
-                        <input type="file" name="eventimage" />
+                        <h4><i class="uil uil-upload create__icon"></i> Upload Your Event Image <input type="file"
+                                id="eventfile"></h4>
                         <div class="create__content">
                             <label for="" class="create__label">Event Name</label>
                             <input type="text" class="input-field" id="eventname" name="eventname">
                         </div>
                         <div class="create__content">
                             <label for="" class="create__label">Date</label>
-                            <input type="date" class="input-field" id="eventname" name="eventdate">
+                            <input type="date" class="input-field" id="eventdate" name="eventdate">
                         </div>
                         <div class="create__content">
                             <label for="" class="create__label">Time</label>
-                            <input type="time" class="input-field" id="eventname" name="eventtime">
+                            <input type="time" class="input-field" id="eventtime" name="eventtime">
                         </div>
                         <div class="create__content">
                             <label for="" class="create__label">Members</label>
-                            <input type="number" class="input-field" id="eventname" name="eventmember">
+                            <input type="number" class="input-field" id="eventmember" name="eventmember">
                         </div>
                         <div class="create__content">
                             <label for="" class="create__label">Description</label>
                             <input type="text" class="input-field" id="eventdescription" name="eventdescription">
                         </div>
-                        <button type="submit" class="btn create-btn" name="create-event">Create Event</button>
+                        <button type="submit" class="btn create-btn" name="create-event" id="createeventbutton">Create
+                            Event</button>
                     </div>
 
                     <div class="right-container" id="app">
@@ -211,110 +214,53 @@
 
     <!--==================== MAIN JS ====================-->
     <script src="js/main.js"></script>
+
+
+
+    <script>
+    var firebaseConfig = {
+        apiKey: "AIzaSyCrsXG-2nUCrV9d_Thsv-sLBE2P6Hqg2w4",
+        authDomain: "foodmate-1595033300695.firebaseapp.com",
+        databaseURL: "https://foodmate-1595033300695.firebaseio.com",
+        projectId: "foodmate-1595033300695",
+        storageBucket: "foodmate-1595033300695.appspot.com",
+        messagingSenderId: "870027097930",
+        appId: "1:870027097930:web:cda35fe41f44474ac3b3b3",
+        measurementId: "G-0S0Z2ZVNLM"
+    };
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+    </script>
+
+    <script>
+    //-------------------------Ready data----------------------------//
+    var cateV, nameV, dateV, timeV, memberV, descV, addressV;
+
+    function Ready() {
+        // cateV = document.getElementById('FoodCategory').value;
+        nameV = document.getElementById('eventname').value;
+        dateV = document.getElementById('eventdate').value;
+        timeV = document.getElementById('eventtime').value;
+        memberV = document.getElementById('eventmember').value;
+        descV = document.getElementById('eventdescription').value;
+        addressV = document.getElementById('address').value;
+    }
+
+    //-------------------------Create Event----------------------------//
+    document.getElementById('create').onclick = function() {
+        alert('create success');
+        Ready();
+        firebase.database().ref('Event/' + nameV).set({
+            CateofEvent: cateV,
+            NameofEvent: nameV,
+            DateofEvent: dateV,
+            TimeofEvent: timeV,
+            MemberofEvent: memberV,
+            DescriptionofEvent: descV,
+            LocationofEvent: addressV
+        })
+    }
+    </script>
 </body>
-
-
-<?php
-
-// initializing variables
-$eventimage = "";
-$eventname = "";
-$eventdate = "";
-$eventtime = "";
-$eventmember = "";
-$eventdescription = "";
-$eventlocation = "" ;
-
-// connect to the database
-$db = mysqli_connect('localhost', 'root', '', 'create_event');
-
-// REGISTER USER
-if (isset($_POST['create_event'])) {
-  // receive all input values from the form
-  $eventimage = mysqli_real_escape_string($db, $_POST['eventimage']);
-  $eventname = mysqli_real_escape_string($db, $_POST['eventname']);
-  $eventdate = mysqli_real_escape_string($db, $_POST['eventdate']);
-  $eventtime = mysqli_real_escape_string($db, $_POST['eventtime']);
-  $eventmember = mysqli_real_escape_string($db, $_POST['eventmember']);
-  $eventdescription = mysqli_real_escape_string($db, $_POST['eventdescription']);
-  $eventlocation = mysqli_real_escape_string($db, $_POST['eventlocation']);
-
-  // form validation: ensure that the form is correctly filled ...
-  // by adding (array_push()) corresponding error unto $errors array
-  if (empty($eventname)) { array_push($errors, "Eventname is required"); }
-  if (empty($eventdate)) { array_push($errors, "Date is required"); }
-  if (empty($eventtime)) { array_push($errors, "Time is required"); }
-  if (empty($eventmember)) { array_push($errors, "Member is required"); }
-  if (empty($eventlocation)) { array_push($errors, "Please filled in address"); }
-  
-
-  // first check the database to make sure 
-  // a user does not already exist with the same username and/or email
-//   $user_check_query = "SELECT * FROM events WHERE eventimage='$eventimage' OR email='$email' LIMIT 1";
-//   $result = mysqli_query($db, $user_check_query);
-//   $user = mysqli_fetch_assoc($result);
-  
-  if ($user) { // if user exists
-    if ($user['username'] === $username) {
-      array_push($errors, "Username already exists");
-    }
-
-    if ($user['email'] === $email) {
-      array_push($errors, "email already exists");
-    }
-  }
-
-  // Finally, register user if there are no errors in the form
-  if (count($errors) == 0) {
-  	$password = md5($password_1);//encrypt the password before saving in the database
-
-  	$query = "INSERT INTO users (username, email, password) 
-  			  VALUES('$username', '$email', '$password')";
-  	mysqli_query($db, $query);
-  	$_SESSION['username'] = $username;
-  	$_SESSION['success'] = "You are now logged in";
-  	header('location: index.php');
-  }
-}
-
-
-// LOGIN USER
-if (isset($_POST['login_user'])) {
-  $username = mysqli_real_escape_string($db, $_POST['username']);
-  $password = mysqli_real_escape_string($db, $_POST['password']);
-
-  if (empty($username)) {
-  	array_push($errors, "Username is required");
-  }
-  if (empty($password)) {
-  	array_push($errors, "Password is required");
-  }
-
-  if (count($errors) == 0) {
-  	$password = md5($password);
-  	$query = "SELECT * FROM users WHERE username='$username' AND password='$password'";
-  	$results = mysqli_query($db, $query);
-  	if (mysqli_num_rows($results) == 1) {
-  	  $_SESSION['username'] = $username;
-  	  $_SESSION['success'] = "You are now logged in";
-  	  header('location: index.php');
-  	}else {
-  		array_push($errors, "Wrong username/password combination");
-  	}
-  }
-}
-
-?>
-
-<?php
-
-
-    
-    $mysqli = new mysqli('localhost','root','','create_event') or die($mysqli->connect_error);
-    $table = 'events'
-
-
-
-?>
 
 </html>

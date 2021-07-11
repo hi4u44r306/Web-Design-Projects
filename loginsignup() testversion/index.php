@@ -112,9 +112,9 @@
                     <!-- logged in user information -->
                     <?php  if (isset($_SESSION['username'])) : ?>
                     <li class="nav__item">
-                        <a href="profile.php" class="profile">
+                        <a href="profile.php" class="nav__link">
                             <i class="uil uil-user nav__icon"></i>
-                            || <?php echo $_SESSION['username']; ?> ||
+                            User : <?php echo $_SESSION['username']; ?>
                         </a>
                     </li>
                     <?php endif ?>
